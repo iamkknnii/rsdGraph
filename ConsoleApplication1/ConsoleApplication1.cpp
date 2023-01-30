@@ -18,52 +18,13 @@
 #include "boost/graph/random.hpp"
 #include <random>
 #include "rsdTopoGraph2.h"
+#include "rsdTopoGraph.h"
 
 using namespace boost;
 using namespace std;
 using namespace rsdTopo;
 
 
-
-
-template <typename Graph>
-bool is_selfloop(typename graph_traits<Graph>::edge_descriptor e, const Graph& g)
-{
-	typename graph_traits<Graph>::vertex_descriptor u, v;
-	u = source(e, g);
-	v = target(e, g);
-	return u == v;
-
-}
-
-struct City
-{
-	string name;
-	int population;
-	vector<int> zipcodes;
-};
-
-struct Highway
-{
-	string name;
-	double miles;
-	int speed_limit;
-	int lanes;
-	bool divided;
-};
-
-
-struct Country {
-	string name;
-	bool use_right;   // Drive on the left or right
-	bool use_metric;  // mph or km/h
-};
-
-//捆绑内部属性  成功
-//typedef boost::adjacency_list<
-//	boost::listS, boost::vecS, boost::bidirectionalS,
-//	City, Highway, Country>
-//	Map;
 
 
 
@@ -74,16 +35,7 @@ public:
 	int id;
 };
 
-// 转定义股道拓扑图
-//typedef rsdTopo::rsdTopoGraph<
-//	boost::listS, boost::vecS, boost::bidirectionalS,
-//	vertexPropSample, no_property, no_property, boost::listS>	zcGudaoTopo;
-//
-//void makeGraph1(zcGudaoTopo& g);   //手工单点增加创建图
-//void makeGraph2(/*zcGudaoTopo& g*/);   //批量添加边增加创建图
 
-struct Node : netElement { };
-struct Arc : netRelation { };
 
 void testChild()
 {
@@ -99,8 +51,8 @@ void testChild()
 
 void testOut()
 {
-	typedef boost::adjacency_list<boost::vecS, boost::vecS,boost::bidirectionalS
-		                         ,netElement,netRelation > Graph;
+	typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS
+		, netElement, netRelation > Graph;
 	Graph g;
 	const std::string base_filename{ "save_graph_to_dot_test_empty_directed_graph" };
 	const std::string dot_filename{ base_filename + ".dot" };
@@ -119,57 +71,41 @@ int main(int, char* [])
 	netElement vp3; vp3.setIndex(3); vp3.setName("d");
 	netElement vp4; vp4.setIndex(4); vp4.setName("e");
 
-		netRelation e0; e0.setIndex(0); e0.setName("e0");
-		netRelation e1; e1.setIndex(1); e1.setName("e1");
-		netRelation e2; e2.setIndex(2); e2.setName("e2");
-		netRelation e3; e3.setIndex(3); e3.setName("e3");
-		netRelation e4; e4.setIndex(4); e4.setName("e4");
-		netRelation e5; e5.setIndex(5); e5.setName("e5");
-		netRelation e6; e6.setIndex(6); e6.setName("e6");
-		
-		rsdTopoGraph g;
+	netRelation e0; e0.setIndex(0); e0.setName("e0");
+	netRelation e1; e1.setIndex(1); e1.setName("e1");
+	netRelation e2; e2.setIndex(2); e2.setName("e2");
+	netRelation e3; e3.setIndex(3); e3.setName("e3");
+	netRelation e4; e4.setIndex(4); e4.setName("e4");
+	netRelation e5; e5.setIndex(5); e5.setName("e5");
+	netRelation e6; e6.setIndex(6); e6.setName("e6");
 
-	
-		g.ensureEdge(vp0, vp1, e0);
-		g.ensureEdge(vp0, vp3, e1);
-		g.ensureEdge(vp1, vp3, e2);
-		g.ensureEdge(vp2, vp0, e3);
-		g.ensureEdge(vp2, vp4, e4);
-		g.ensureEdge(vp3, vp2, e5);
-		g.ensureEdge(vp3, vp4, e6);
-		
-		//g.print(std::cout);
+	rsdTopoGraph g;
 
-		//g.delEdge(vp0,vp1);
-	
 
-		//输出dot文件
-		const std::string base_filename{ "rsdGraph" };
-		const std::string dot_filename{ base_filename + ".dot" };
-		const std::string svg_filename{ base_filename + ".svg" };
-		//g.dotOut(dot_filename);
-		g.svgOut(dot_filename, svg_filename);
-		//g.delNode(vp1);
-		//std::cout << "rsdTopo示例 删除b节点后结果: \n";
-		//g.print(std::cout);
-	
+	g.ensureEdge(vp0, vp1, e0);
+	g.ensureEdge(vp0, vp3, e1);
+	g.ensureEdge(vp1, vp3, e2);
+	g.ensureEdge(vp2, vp0, e3);
+	g.ensureEdge(vp2, vp4, e4);
+	g.ensureEdge(vp3, vp2, e5);
+	g.ensureEdge(vp3, vp4, e6);
 
-    //zcGudaoTopo g1();
-	//zcGudaoTopo g2(zcNetWorkLevel::Nano);
-	//zcGudaoTopo g4(zcNetWorkLevel::Micro);
-	//swap(g2, g4);
 
-	//创建真实的网络
-	
-	//zcGudaoTopo zcGraph;
-	//makeGraph1(zcGraph);   //手工单点增加创建图
-	
-	//makeGraph2();   //手工单点增加创建图
-	//输出打印图的所有节点及其出边
-	/*std::cout << "---\n";
-	std::cout << "rsdTopo示例: \n";
-	print_graph(zcGraph, get(&vertexPropSample::m_name, zcGraph), std::cout << "---\n");*/
+	//g.test(vp2);
 
+	//输出dot文件
+	std::string base_filename{ "rsdGraph" };
+	std::string dot_filename{ base_filename + ".dot" };
+	std::string svg_filename{ base_filename + ".svg" };
+	//g.dotOut(dot_filename);
+	g.svgOut(dot_filename, svg_filename);
+
+	//修改后测试输出
+	g.delNode(vp0);
+	base_filename = "rsdGraph_test1";
+	dot_filename = base_filename + ".dot";
+	svg_filename = base_filename + ".svg";
+	g.svgOut(dot_filename, svg_filename);
 
 
 	//输出某一节点的所有出边
@@ -181,8 +117,8 @@ int main(int, char* [])
 			<< zcGraph[target(e, zcGraph)].m_index << std::endl;
 	}*/
 
+	//int dd = dow(12, 7, 2023);
 
-	
 
 	return 0;
 }
@@ -225,6 +161,7 @@ int main(int, char* [])
 
 
 
+
 	/*typedef boost::directed_graph<> Graph;
 	Graph g;
 	boost::graph_traits< Graph >::vertex_descriptor v0 = g.add_vertex();
@@ -242,7 +179,7 @@ int main(int, char* [])
 
 
 	//rsdTopoGraph<> map;
-	
+
 	//Map map; // load the map
 	//graph_traits< Map >::vertex_descriptor v00;
 	//v00=add_vertex(map);
