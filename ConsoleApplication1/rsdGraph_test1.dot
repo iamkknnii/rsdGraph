@@ -1,0 +1,10 @@
+digraph G {
+0[label="b",comment="",width=1,height=0];
+1[label="d",comment="",width=3,height=0];
+2[label="c",comment="",width=2,height=0];
+3[label="e",comment="",width=4,height=0];
+0->1 [edgeName="e2",edgeComment="",edgeIndex=2,edgeType=0];
+2->3 [edgeName="e4",edgeComment="",edgeIndex=4,edgeType=0];
+1->2 [edgeName="e5",edgeComment="",edgeIndex=5,edgeType=0];
+1->3 [edgeName="e6",edgeComment="",edgeIndex=6,edgeType=0];
+}

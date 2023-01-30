@@ -337,9 +337,10 @@ namespace rsdTopo
 
 
 	protected:
-		//内部使用函数 主要是包括节点和边的查询 获得节点的内部索引
+		//内部使用函数 主要是包括节点和边的查询 根据属性判定是否存在
 		netElement  getNodeElement(VertexDesc& desc)
 		{
+			//使用之前需判定desc已经存在
 			netElement curNode = graph_[desc];
 			return curNode;
 		}
@@ -363,15 +364,41 @@ namespace rsdTopo
 			return false;
 		}
 
-	public:
-		void  test(netElement& node)
+		netRelation  getRelation(EdgeDesc& desc)
 		{
-			VertexDesc discrpiter;
-			if (!hasNode(node, discrpiter))
+			//使用之前需判定desc已经存在
+			netRelation curEdge = graph_[desc];
+			return curEdge;
+		}
+
+
+		bool  hasEdge(netRelation& edge, EdgeDesc& edgeDescriper)
+		{
+
+			EdgeIte ei, ei_end;
+			for (tie(ei, ei_end) = edges(graph_); ei != ei_end; ++ei)
+			{
+				auto descriptor = *ei;
+				netRelation curEdge = graph_[descriptor];
+				//此处改为重载==后的内容
+				if (curEdge == edge)
+				{
+					edgeDescriper = descriptor;
+					return true;
+				}
+			}
+			return false;
+		}
+
+	public:
+		void  test(netRelation& node)
+		{
+			EdgeDesc discrpiter;
+			if (!hasEdge(node, discrpiter))
 			{
 				return;
 			}
-			netElement  myNode = getNodeElement(discrpiter);
+			netRelation  myNode = getRelation(discrpiter);
 			return;
 		}
 

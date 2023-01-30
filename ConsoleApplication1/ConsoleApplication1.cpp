@@ -92,6 +92,7 @@ int main(int, char* [])
 
 
 	//g.test(vp2);
+	g.test(e5);
 
 	//输出dot文件
 	std::string base_filename{ "rsdGraph" };
