@@ -56,18 +56,18 @@ class netElement
 public:
 	//好像必须写缺省构造函数
 
-	string m_uID;
+	string m_ID;
 	int    m_index;
 	string m_name;
 	int    m_type;
 
 	//最好用成员初始化表
 	netElement(
-		const std::string& name = "",
 		const std::string& uID = "",
+		const std::string& name = "",
 		const int type = 0.0,
 		const int index = 0.0
-	) : m_name(name), m_uID(uID), m_type(type), m_index(index)
+	) :  m_ID(uID), m_name(name), m_type(type), m_index(index)
 	{
 	}
 
@@ -105,11 +105,11 @@ class netRelation
 {
 public:
 	netRelation(
-		const std::string& name = "",
 		const std::string& uID = "",
+		const std::string& name = "",
 		const int type = 0.0,
 		const int index = 0.0
-	) : m_name(name), m_uID(uID), m_type(type), m_index(index)
+	) :  m_ID(uID), m_name(name), m_type(type), m_index(index)
 	{
 	}
 	//好像必须写缺省构造函数
@@ -126,7 +126,7 @@ public:
 
 	}
 
-	string m_uID;
+	string m_ID;
 	int    m_index;
 	string m_name;
 	int    m_type;
@@ -172,8 +172,6 @@ namespace rsdTopo
 		using VertexIte = boost::graph_traits<Graph>::vertex_iterator;
 		//边遍历器
 		using EdgeIte = boost::graph_traits<Graph>::edge_iterator;
-
-
 
 
 		/*using VertexDesc = boost::graph_traits<Graph>::vertex_descriptor;
@@ -335,18 +333,34 @@ namespace rsdTopo
 
 		int networkLevel;  //网络图的等级
 
+		//判定vertex desc是否已经存在
+		bool isVertexdesc_valid(VertexDesc desc) const
+		{
+			if constexpr (std::is_integral_v<VertexDesc>)
+			{
+				return desc >= 0 && desc < num_vertices(graph_);
+			}
+			else 
+			{
+				auto vds = vertices(graph_);
+				return std::count(vds.first, vds.second, desc);
+			}
+		}
+
+		//判定edge desc是否已经存在
+		bool isEdgedesc_valid(EdgeDesc desc) const
+		{
+
+			auto eds = edges(graph_);
+			return std::count(eds.first, eds.second, desc);
+			
+		}
 
 	protected:
 		//内部使用函数 主要是包括节点和边的查询 根据属性判定是否存在
-		netElement  getNodeElement(VertexDesc& desc)
-		{
-			//使用之前需判定desc已经存在
-			netElement curNode = graph_[desc];
-			return curNode;
-		}
+		
 
-
-		bool  hasNode(netElement& node, VertexDesc& nodeDescriper)
+		bool  hasVertex(netElement& node, VertexDesc& nodeDescriper)
 		{
 
 			VertexIte vi, vi_end;
@@ -364,12 +378,6 @@ namespace rsdTopo
 			return false;
 		}
 
-		netRelation  getRelation(EdgeDesc& desc)
-		{
-			//使用之前需判定desc已经存在
-			netRelation curEdge = graph_[desc];
-			return curEdge;
-		}
 
 
 		bool  hasEdge(netRelation& edge, EdgeDesc& edgeDescriper)
@@ -398,7 +406,26 @@ namespace rsdTopo
 			{
 				return;
 			}
-			netRelation  myNode = getRelation(discrpiter);
+			if (isEdgedesc_valid(discrpiter))
+			{
+				netRelation  myNode = graph_[discrpiter];
+			}
+			
+			return;
+		}
+
+		void  test2(netElement& node)
+		{
+			VertexDesc discrpiter;
+			if (!hasVertex(node, discrpiter))
+			{
+				return;
+			}
+			if (isVertexdesc_valid(discrpiter))
+			{
+				netElement myNode = graph_[discrpiter];
+			}
+
 			return;
 		}
 

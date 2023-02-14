@@ -93,7 +93,7 @@ int main(int, char* [])
 
 	//g.test(vp2);
 	g.test(e5);
-
+	g.test2(vp3);
 	//输出dot文件
 	std::string base_filename{ "rsdGraph" };
 	std::string dot_filename{ base_filename + ".dot" };

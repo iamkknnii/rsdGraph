@@ -43,7 +43,7 @@ public:
             )
             << "\",comment=\""
             << graphviz_encode(
-                m_g[vd].m_uID
+                m_g[vd].m_ID
             )
             << "\",width="
             << m_g[vd].m_index
@@ -80,7 +80,7 @@ public:
             )
             << "\",edgeComment=\""
             << graphviz_encode(
-                m_g[ed].m_uID
+                m_g[ed].m_ID
             )
             << "\",edgeIndex="
             << m_g[ed].m_index
