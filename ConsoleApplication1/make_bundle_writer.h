@@ -74,7 +74,7 @@ public:
     template <class edge_descriptor>
     void operator()(      std::ostream& out,      const edge_descriptor& ed   ) const noexcept 
     {
-        out << "[edgeName=\""
+        out << "[label=\""
             << graphviz_encode(
                 m_g[ed].m_name
             )

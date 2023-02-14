@@ -85,7 +85,7 @@ public:
 
 	bool operator ==(const netElement& vertex)
 	{
-		if (m_name == vertex.m_name)
+		if (m_ID == vertex.m_ID)
 		{
 			return true;
 		}
@@ -133,7 +133,7 @@ public:
 
 	bool operator ==(const netRelation& edge)
 	{
-		if (m_name == edge.m_name)
+		if (m_ID == edge.m_ID)
 		{
 			return true;
 		}
@@ -333,33 +333,33 @@ namespace rsdTopo
 
 		int networkLevel;  //网络图的等级
 
-		//判定vertex desc是否已经存在
-		bool isVertexdesc_valid(VertexDesc desc) const
+	
+		//更新节点的属性(ID不能变)
+		bool updateVertexElement( netElement& node)
 		{
-			if constexpr (std::is_integral_v<VertexDesc>)
+			VertexDesc nodeDescriper;
+			if (!hasVertex(node, nodeDescriper))
 			{
-				return desc >= 0 && desc < num_vertices(graph_);
+				return false;
 			}
-			else 
+			graph_[nodeDescriper] = node;
+			return true;
+		}
+		//更新边的属性(ID不能变)
+		bool updateEdgeRelation(netRelation& node)
+		{
+			EdgeDesc edgeDescriper;
+			if (!hasEdge(node, edgeDescriper))
 			{
-				auto vds = vertices(graph_);
-				return std::count(vds.first, vds.second, desc);
+				return false;
 			}
+			graph_[edgeDescriper] = node;
+			return true;
 		}
 
-		//判定edge desc是否已经存在
-		bool isEdgedesc_valid(EdgeDesc desc) const
-		{
 
-			auto eds = edges(graph_);
-			return std::count(eds.first, eds.second, desc);
-			
-		}
-
-	protected:
 		//内部使用函数 主要是包括节点和边的查询 根据属性判定是否存在
 		
-
 		bool  hasVertex(netElement& node, VertexDesc& nodeDescriper)
 		{
 
@@ -398,6 +398,32 @@ namespace rsdTopo
 			return false;
 		}
 
+
+		protected:
+			//内部函数使用
+			//判定vertex desc是否已经存在
+			bool isVertexdesc_valid(VertexDesc desc) const
+			{
+				if constexpr (std::is_integral_v<VertexDesc>)
+				{
+					return desc >= 0 && desc < num_vertices(graph_);
+				}
+				else
+				{
+					auto vds = vertices(graph_);
+					return std::count(vds.first, vds.second, desc);
+				}
+			}
+
+			//判定edge desc是否已经存在
+			bool isEdgedesc_valid(EdgeDesc desc) const
+			{
+
+				auto eds = edges(graph_);
+				return std::count(eds.first, eds.second, desc);
+
+			}
+
 	public:
 		void  test(netRelation& node)
 		{
@@ -416,6 +442,7 @@ namespace rsdTopo
 
 		void  test2(netElement& node)
 		{
+			
 			VertexDesc discrpiter;
 			if (!hasVertex(node, discrpiter))
 			{

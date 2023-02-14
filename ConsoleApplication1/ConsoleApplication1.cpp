@@ -65,19 +65,19 @@ int main(int, char* [])
 	//testChild();
 	//初始化节点
 
-	netElement vp0; vp0.setIndex(0); vp0.setName("a");
-	netElement vp1; vp1.setIndex(1); vp1.setName("b");
-	netElement vp2; vp2.setIndex(2); vp2.setName("c");
-	netElement vp3; vp3.setIndex(3); vp3.setName("d");
-	netElement vp4; vp4.setIndex(4); vp4.setName("e");
+	netElement vp0("0"); vp0.setIndex(0); vp0.setName("a");
+	netElement vp1("1"); vp1.setIndex(1); vp1.setName("b");
+	netElement vp2("2"); vp2.setIndex(2); vp2.setName("c");
+	netElement vp3("3"); vp3.setIndex(3); vp3.setName("d");
+	netElement vp4("4"); vp4.setIndex(4); vp4.setName("e");
 
-	netRelation e0; e0.setIndex(0); e0.setName("e0");
-	netRelation e1; e1.setIndex(1); e1.setName("e1");
-	netRelation e2; e2.setIndex(2); e2.setName("e2");
-	netRelation e3; e3.setIndex(3); e3.setName("e3");
-	netRelation e4; e4.setIndex(4); e4.setName("e4");
-	netRelation e5; e5.setIndex(5); e5.setName("e5");
-	netRelation e6; e6.setIndex(6); e6.setName("e6");
+	netRelation e0("0"); e0.setIndex(0); e0.setName("e0");
+	netRelation e1("1"); e1.setIndex(1); e1.setName("e1");
+	netRelation e2("2"); e2.setIndex(2); e2.setName("e2");
+	netRelation e3("3"); e3.setIndex(3); e3.setName("e3");
+	netRelation e4("4"); e4.setIndex(4); e4.setName("e4");
+	netRelation e5("5"); e5.setIndex(5); e5.setName("e5");
+	netRelation e6("6"); e6.setIndex(6); e6.setName("e6");
 
 	rsdTopoGraph g;
 
@@ -94,6 +94,10 @@ int main(int, char* [])
 	//g.test(vp2);
 	g.test(e5);
 	g.test2(vp3);
+	netElement newNode = vp1;
+	vp1.m_name = "maoning";
+	g.updateVertexElement(vp1);
+
 	//输出dot文件
 	std::string base_filename{ "rsdGraph" };
 	std::string dot_filename{ base_filename + ".dot" };
@@ -102,11 +106,11 @@ int main(int, char* [])
 	g.svgOut(dot_filename, svg_filename);
 
 	//修改后测试输出
-	g.delNode(vp0);
+	/*g.delNode(vp0);
 	base_filename = "rsdGraph_test1";
 	dot_filename = base_filename + ".dot";
 	svg_filename = base_filename + ".svg";
-	g.svgOut(dot_filename, svg_filename);
+	g.svgOut(dot_filename, svg_filename);*/
 
 
 	//输出某一节点的所有出边
