@@ -281,9 +281,9 @@ namespace rsdTopo
 
 			remove_edge(descriptor, descriptor2, graph_);
 
-			/*auto neighbors = adjacent_vertices(descriptor, graph_);
+			//auto neighbors = adjacent_vertices(descriptor, graph_);
 
-			for (auto nit = neighbors.first; nit != neighbors.second; ++nit)
+			/*for (auto nit = neighbors.first; nit != neighbors.second; ++nit)
 			{
 
 				netElement curNode = graph_[*nit];

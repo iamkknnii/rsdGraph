@@ -105,12 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\boost;C:\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\boost;.\SQLite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\lib;C:\Users\Lenovo\source\repos\iamkknnii\rsdGraph\ConsoleApplication1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\boost;..\SQLite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -149,17 +151,40 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\lib;C:\Users\Lenovo\source\repos\iamkknnii\rsdGraph\ConsoleApplication1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication1.cpp" />
+    <ClCompile Include="dbLink.cpp" />
     <ClCompile Include="randomGraph.cpp" />
     <ClCompile Include="sharePtr.cpp" />
+    <ClCompile Include="SQLite\Backup.cpp" />
+    <ClCompile Include="SQLite\Column.cpp" />
+    <ClCompile Include="SQLite\Database.cpp" />
+    <ClCompile Include="SQLite\Exception.cpp" />
+    <ClCompile Include="SQLite\Savepoint.cpp" />
+    <ClCompile Include="SQLite\Statement.cpp" />
+    <ClCompile Include="SQLite\Transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="make_bundle_writer.h" />
     <ClInclude Include="rsdTopoGraph.h" />
     <ClInclude Include="rsdTopoGraph2.h" />
+    <ClInclude Include="SQLite\Assertion.h" />
+    <ClInclude Include="SQLite\Backup.h" />
+    <ClInclude Include="SQLite\Column.h" />
+    <ClInclude Include="SQLite\Database.h" />
+    <ClInclude Include="SQLite\Exception.h" />
+    <ClInclude Include="SQLite\ExecuteMany.h" />
+    <ClInclude Include="SQLite\Savepoint.h" />
+    <ClInclude Include="SQLite\SQLiteCpp.h" />
+    <ClInclude Include="SQLite\Statement.h" />
+    <ClInclude Include="SQLite\Transaction.h" />
+    <ClInclude Include="SQLite\Utils.h" />
+    <ClInclude Include="SQLite\VariadicBind.h" />
+    <ClInclude Include="utf-unicode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

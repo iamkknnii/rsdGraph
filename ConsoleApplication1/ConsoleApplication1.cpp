@@ -20,11 +20,12 @@
 #include "rsdTopoGraph2.h"
 #include "rsdTopoGraph.h"
 
+
 using namespace boost;
 using namespace std;
 using namespace rsdTopo;
 
-
+int tryDbLink();
 
 
 
@@ -59,12 +60,13 @@ void testOut()
 	std::ofstream f(dot_filename);
 	boost::write_graphviz(f, g);
 }
-int main(int, char* [])
+
+void testGraph()
 {
+
 	//testOut();
 	//testChild();
 	//初始化节点
-
 	netElement vp0("0"); vp0.setIndex(0); vp0.setName("a");
 	netElement vp1("1"); vp1.setIndex(1); vp1.setName("b");
 	netElement vp2("2"); vp2.setIndex(2); vp2.setName("c");
@@ -123,6 +125,18 @@ int main(int, char* [])
 	}*/
 
 	//int dd = dow(12, 7, 2023);
+}
+
+void testDb()
+{
+	tryDbLink();
+}
+int main(int, char* [])
+{
+
+	//testGraph();
+	testDb();
+	
 
 
 	return 0;

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\sqlite">
+      <UniqueIdentifier>{3bf6d1c0-7754-4bdb-9bf8-c5416108d07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\sqlite">
+      <UniqueIdentifier>{499af5ea-2431-4a12-a8bf-659feab64c52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApplication1.cpp">
@@ -22,6 +28,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sharePtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Backup.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Column.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Database.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Exception.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Savepoint.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Statement.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLite\Transaction.cpp">
+      <Filter>源文件\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="dbLink.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -34,6 +64,45 @@
     </ClInclude>
     <ClInclude Include="make_bundle_writer.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Assertion.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Backup.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Column.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Database.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Exception.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\ExecuteMany.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Savepoint.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\SQLiteCpp.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Statement.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Transaction.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\Utils.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="SQLite\VariadicBind.h">
+      <Filter>头文件\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="utf-unicode.h">
+      <Filter>头文件\sqlite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
