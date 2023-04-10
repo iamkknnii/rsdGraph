@@ -25,13 +25,52 @@
 #include <boost/graph/adjacency_list.hpp>
 
 #include <boost/graph/iteration_macros.hpp>
+
+#include <algorithm>
+
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+
+
+#include <boost/bimap.hpp>
+
+using namespace boost::bimaps;
+
+
 using namespace boost;
 using namespace std;
 using namespace rsdTopo;
 
 int tryDbLink();
 
+//void tryLpSolve();
 
+//测试在数组中
+inline void tryT()
+{
+	
+
+	std::unordered_set<Person, PersonHash> people = {
+	{"Alice", 23},
+	{"Bob", 17},
+	{"Charlie", 19},
+	{"David", 32},
+	};
+
+	/*people.insert({ "Alice", 23 });
+	people.insert({ "Bob", 17 });
+	people.insert({ "Charlie", 19 });
+	people.insert({ "David", 32 });*/
+	
+	//auto is_adult = [](const Person& p) { return p.age >= 18; };
+	//auto result = find_objects(people, &Person::age, is_adult);
+
+	auto is_adult = [](int age) { return age >= 18; };
+	auto result = find_objects(people, &Person::age, std::function<bool(const int&)>(is_adult));
+	for (const auto& person : result)
+	{
+		cout << person.name << endl;
+	}
+}
 
 class VertexInfo
 {
@@ -136,19 +175,44 @@ void testDb()
 	tryDbLink();
 }
 
+class netVertex
+{
+public:
+	netVertex(	const long uID = 0
+	) : m_ID(uID)
+	{
+	}
+public:
+	
+	long getID() const { return m_ID; }
 
-struct netVertex{
-	int id;
-	std::string name;
+	long m_ID;
 };
-struct netEdge {
-	int length;
-	std::string level;
+
+class netEdge
+{
+	public:
+		netEdge(
+		
+		const long uID = 0,
+		const double dis = 0
+	) : m_ID(uID),  m_dis(dis)
+	{
+	}
+
+	
+	long getID() const { return m_ID; }
+	double getDistance() const { return m_dis; }
+
+	long m_ID;
+	double m_dis;
 };
+
 
 // 定义图类型
-typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS,
-	netVertex, netEdge> Graph;
+using Graph = boost::adjacency_list<
+	boost::vecS, boost::vecS, boost::undirectedS,
+	netVertex, netEdge >;
 // 深度优先搜索的回调函数
 //struct dfs_callback : public boost::default_dfs_visitor
 //{
@@ -180,97 +244,85 @@ typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::bidirectionalS,
 //
 //};
 
-// 定义一个自定义访问者
-struct my_visitor : default_dfs_visitor
-{
-	static std::vector<int> visited_nodes; // 存储已访问节点的数组
-	int target_edge_property = 100; // 目标边属性的值
-	template <typename Vertex, typename Graph>
-	 void discover_vertex(Vertex u, const Graph& g) 
-	{
-		// 将访问到的节点添加到visited_nodes数组中
-		 
-		visited_nodes.push_back(u);
-	}
 
-	 //template <typename Vertex, typename Graph>
-	 //void initialize_vertex(Vertex u, const Graph& g)
-	 //{
-		// return;
-	 //}
-	
-
-	template <typename Edge, typename Graph>
-	void examine_edge(Edge e, const Graph& g) const
-	{
-		return;
-		// 检查当前遍历到的边的属性是否符合条件
-		/*if (g[e].length < target_edge_property)
-		{
-			
-			return false;
-		}*/
-	}
-};
-
-// 在定义结构体外部初始化visited_nodes数组
-std::vector<int> my_visitor::visited_nodes;
 
 	int main(int, char* [])
 	{
+	
+		//tryT();
+		
+		// 创建一个有6个顶点和7条边的图
 		Graph g;
-		auto v1 = boost::add_vertex(netVertex{ 0, "A" }, g);
-		auto v2 = boost::add_vertex(netVertex{ 1, "B" }, g);
-		auto v3 = boost::add_vertex(netVertex{ 2, "C" }, g);
-		auto v4 = boost::add_vertex(netVertex{ 3, "D" }, g);
-		auto v5 = boost::add_vertex(netVertex{ 4, "E" }, g);
-		auto v6 = boost::add_vertex(netVertex{ 5, "F" }, g);
-		auto v7 = boost::add_vertex(netVertex{ 6, "G" }, g);
-		auto v8 = boost::add_vertex(netVertex{ 7, "H" }, g);
-		auto v9 = boost::add_vertex(netVertex{ 8, "I" }, g);
-
-		boost::add_edge(v1, v2, netEdge{ 100, "普通" }, g);
-		boost::add_edge(v1, v5, netEdge{ 50, "高速" }, g);
-		boost::add_edge(v2, v3, netEdge{ 80, "普通" }, g);
-		boost::add_edge(v2, v6, netEdge{ 120, "高速" }, g);
-		boost::add_edge(v3, v4, netEdge{ 150, "普通" }, g);
-		boost::add_edge(v3, v7, netEdge{ 90, "高速" }, g);
-		boost::add_edge(v4, v8, netEdge{ 200, "高速" }, g);
-		boost::add_edge(v5, v6, netEdge{ 70, "普通" }, g);
-		boost::add_edge(v5, v9, netEdge{ 100, "高速" }, g);
-		boost::add_edge(v6, v7, netEdge{ 130, "普通" }, g);
-		boost::add_edge(v7, v8, netEdge{ 180, "普通" }, g);
-		boost::add_edge(v8, v9, netEdge{ 150, "高速" }, g);
-		// 从起始节点 v2 出发搜索
-// 		std::vector<int> result;
-// 		dfs_callback callback(result, g);
-// 		boost::depth_first_search(g, boost::visitor(callback), boost::root_vertex(v2));
-// 		// 输出结果
-// 		std::cout << "Search results:" << std::endl;
-// 		for (auto node : result)
-// 		{
-// 			std::cout << "Node " << g[node].name << std::endl;
-// 		}
-
-		//testGraph();
-		//testDb();
-
-		 // 定义一个自定义访问者对象
-		my_visitor vis;
-
-		//// 使用DFS算法遍历图形，并使用自定义访问者处理每个节点
-		   // 使用DFS算法遍历图形，并使用自定义访问者处理每个节点
-		depth_first_search(g, visitor(vis).root_vertex(v2));
-
-		// 输出存储的节点
-		std::cout << "Visited nodes: ";
-		for (int node : my_visitor::visited_nodes) {
-			std::cout << node << " ";
+	
+				
+		std::vector<Graph::vertex_descriptor> vertex(6);
+		for (int i = 0; i < 6; ++i) 
+		{
+			netVertex vp(i);
+			
+			vertex[i] = add_vertex(vp,g);
 		}
-		std::cout << std::endl;
-	
-	
+		boost::add_edge(vertex[0], vertex[1], netEdge( 0, 2.1 ), g);
+		boost::add_edge(vertex[0], vertex[2], netEdge( 1, 1.2 ), g);
+		boost::add_edge(vertex[1], vertex[2], netEdge( 2, 5.3 ), g);
+		boost::add_edge(vertex[3], vertex[1], netEdge( 3, 3.2 ), g);
+		boost::add_edge(vertex[2], vertex[3], netEdge( 4, 99 ), g);
+		boost::add_edge(vertex[2], vertex[4], netEdge( 5, 4.3 ), g);
+		boost::add_edge(vertex[3], vertex[5], netEdge( 6, 9.3 ), g);
+		boost::add_edge(vertex[5], vertex[4], netEdge(7, 2.1), g);
+		//boost::add_edge(vertex[1], vertex[3], netEdge(7, 1), g);
+
+
+		//auto transform_func = [](const netEdge& e) { return e.m_dis; };
+		//auto weight_map = boost::make_transform_value_property_map(transform_func, boost::get(&netEdge::m_dis, g));
+
+
+		// 使用Dijkstra算法找到从顶点0到顶点5的最短路径
+		std::vector<Graph::vertex_descriptor> predecessor(boost::num_vertices(g));
+		std::vector<double> distance(boost::num_vertices(g));
+		
+		
+
+		boost::dijkstra_shortest_paths(g, vertex[1],
+			boost::predecessor_map(boost::make_iterator_property_map(predecessor.begin(), boost::get(boost::vertex_index, g))).
+			distance_map(boost::make_iterator_property_map(distance.begin(), boost::get(boost::vertex_index, g))).
+			weight_map(boost::get(&netEdge::m_dis, g)));
+			//weight_map(weight_map));
+
+
+		// 找到从顶点0到顶点5的最短路径，同时计算其经过的路径中的m_dis值的和
+		std::vector<Graph::vertex_descriptor> path;
+		for (Graph::vertex_descriptor v = vertex[5]; v != vertex[1]; v = predecessor[v]) 
+		{
+			//path.push_back(boost::get(&netVertex::m_ID, g, v));
+			path.push_back(v);
+		}
+		//path.push_back(boost::get(&netVertex::m_ID, g, vertex[0]));
+		path.push_back( vertex[1]);
+		std::reverse(path.begin(), path.end());
+
+		double total_distance = 0;
+		for (std::size_t i = 0; i < path.size() - 1; ++i)
+		{
+			Graph::edge_descriptor e;
+			bool found;
+			boost::tie(e, found) = boost::edge(vertex[path[i]], vertex[path[i + 1]], g);
+			if (found)
+			{
+				total_distance += boost::get(&netEdge::m_dis, g, e);
+			}
+		}
+
+		// 输出最短路径及其经过的路径中的m_dis值的和
+		std::cout << "Shortest path:";
+		for (std::size_t i = 0; i < path.size(); ++i) {
+			std::cout << " " << path[i];
+		}
+		std::cout << "\nTotal distance: " << total_distance << std::endl;
+
 		return 0;
+
+
 	}
 
 

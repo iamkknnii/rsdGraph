@@ -473,3 +473,62 @@ namespace rsdTopo
 		//std::set<std::pair<std::string, std::string>> edgeSet_;
 	};
 }
+
+struct Person
+{
+	string name;
+	int age;
+
+	bool operator<(const Person& other) const
+	{
+		return name < other.name || (name == other.name && age < other.age);
+	}
+
+	bool operator==(const Person& other) const
+	{
+		return name == other.name && age == other.age;
+	}
+};
+
+struct PersonHash
+{
+	size_t operator()(const Person& person) const
+	{
+		size_t name_hash = std::hash<std::string>{}(person.name);
+		size_t age_hash = std::hash<int>{}(person.age);
+		return name_hash ^ age_hash;
+	}
+};
+
+template<typename C, typename T, typename V>
+vector<T> find_objects(const C& objects, V T::* member, const std::function<bool(const V&)>& condition) 
+{
+	vector<T> result;
+	for (const auto& obj : objects)
+	{
+		if (condition(obj.*member))
+		{
+			result.push_back(obj);
+		}
+	}
+	return result;
+}
+
+//template<typename VertexIte, typename G,typename T, typename V, typename Predicate>
+//bool find_vertex(VertexIte vi, VertexIte vi_end, T& node, V T::* member, Predicate pred)
+
+
+template<typename VertexIte, typename G, typename T, typename V>
+vector<T>  find_vertex(VertexIte vi, VertexIte vi_end, T& node, V T::* member, const std::function<bool(const V&)>& condition)
+{
+	vector<T> result;
+	for (; vi != vi_end; ++vi) 
+	{
+		if (condition((*vi).*member))
+		{
+			node = G[*vi];
+			result.push_back(node);
+		}
+	}
+	return result;
+}
